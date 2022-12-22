@@ -38,7 +38,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                         requestExchangeRate.getAmount().toString(),
                         headers)
                 .doOnError(t -> log.info("Ocurred an Error in ExchangeRateAPI"))
-                .onErrorResumeNext(ex -> Single.error(new Throwable("Ocurred an Error in ExchangeRateAPI")))
+                .onErrorResumeNext(ex -> Single.error(ex))
                 .map(rs -> builderResponse.validateResponse(rs))
                 .map(exchangeRateLayerAPI -> builderResponse.buildResponse(
                         exchangeRateLayerAPI, requestExchangeRate)
