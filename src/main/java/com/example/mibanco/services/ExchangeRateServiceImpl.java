@@ -1,13 +1,14 @@
 package com.example.mibanco.services;
 
 import com.example.mibanco.builder.BuilderResponse;
-import com.example.mibanco.models.RequestExchangeRate;
-import com.example.mibanco.models.ResponseExchangeRate;
+import com.example.mibanco.configuration.ApplicationProperties;
+import com.example.mibanco.models.thirdparty.RequestExchangeRate;
+import com.example.mibanco.models.thirdparty.ResponseExchangeRate;
 import com.example.mibanco.proxy.ExchangeRateRepository;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,14 +24,14 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     @Autowired
     private BuilderResponse builderResponse;
 
-    @Value("${apiKey}")
-    private String apiKey;
+    @Autowired
+    private ApplicationProperties properties;
 
     @Override
     public Single<ResponseExchangeRate> exchangeRate(RequestExchangeRate requestExchangeRate) {
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("apikey", apiKey);
+        headers.put("apikey", properties.getApiKey());
 
         return exchangeRateRepository.getExchangeRate(
                         requestExchangeRate.getDestinationCurrency(),
@@ -42,6 +43,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                 .map(rs -> builderResponse.validateResponse(rs))
                 .map(exchangeRateLayerAPI -> builderResponse.buildResponse(
                         exchangeRateLayerAPI, requestExchangeRate)
-                );
+                )
+                .doFinally(() -> log.info("finally method"))
+                .subscribeOn(Schedulers.io());
     }
 }

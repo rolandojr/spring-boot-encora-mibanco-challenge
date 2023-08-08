@@ -1,4 +1,4 @@
-package com.example.mibanco.models;
+package com.example.mibanco.models.thirdparty;
 
 import lombok.Getter;
 import lombok.Setter;
