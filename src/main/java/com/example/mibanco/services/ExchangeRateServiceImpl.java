@@ -7,8 +7,8 @@ import com.example.mibanco.models.thirdparty.ResponseExchangeRate;
 import com.example.mibanco.proxy.ExchangeRateRepository;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,15 +16,11 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ExchangeRateServiceImpl implements ExchangeRateService {
 
-    @Autowired
     private ExchangeRateRepository exchangeRateRepository;
-
-    @Autowired
     private BuilderResponse builderResponse;
-
-    @Autowired
     private ApplicationProperties properties;
 
     @Override
@@ -38,13 +34,13 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                         requestExchangeRate.getOriginCurrency(),
                         requestExchangeRate.getAmount().toString(),
                         headers)
-                .doOnError(t -> log.info("Ocurred an Error in ExchangeRateAPI"))
+                .doOnError(t -> log.info("Ocurred an Error in ExchangeRateAPI {}", t))
                 .onErrorResumeNext(ex -> Single.error(ex))
                 .map(rs -> builderResponse.validateResponse(rs))
                 .map(exchangeRateLayerAPI -> builderResponse.buildResponse(
                         exchangeRateLayerAPI, requestExchangeRate)
                 )
-                .doFinally(() -> log.info("finally method"))
+                .doFinally(() -> log.info("finally method in thread {}", Thread.currentThread().getName()))
                 .subscribeOn(Schedulers.io());
     }
 }
