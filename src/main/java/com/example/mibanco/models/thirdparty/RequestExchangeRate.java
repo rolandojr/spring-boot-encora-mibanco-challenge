@@ -1,12 +1,12 @@
-package com.example.mibanco.models;
+package com.example.mibanco.models.thirdparty;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class RequestExchangeRate {
     private Double amount;
     private String originCurrency;

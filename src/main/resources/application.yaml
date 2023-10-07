@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: @project.name@
+    description: @project.description@
+    apiKey: Ja1nCO8jbSGP1siZIYz0r6cwQwev8gr7
+
+
+    
