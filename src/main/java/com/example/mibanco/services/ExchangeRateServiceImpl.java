@@ -30,8 +30,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         headers.put("apikey", properties.getApiKey());
 
         return exchangeRateRepository.getExchangeRate(
-                        requestExchangeRate.getDestinationCurrency(),
                         requestExchangeRate.getOriginCurrency(),
+                        requestExchangeRate.getDestinationCurrency(),
                         requestExchangeRate.getAmount().toString(),
                         headers)
                 .doOnError(t -> log.info("Ocurred an Error in ExchangeRateAPI {}", t))
@@ -40,7 +40,6 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                 .map(exchangeRateLayerAPI -> builderResponse.buildResponse(
                         exchangeRateLayerAPI, requestExchangeRate)
                 )
-                .doFinally(() -> log.info("finally method in thread {}", Thread.currentThread().getName()))
                 .subscribeOn(Schedulers.io());
     }
 }
