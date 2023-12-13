@@ -21,10 +21,10 @@ import lombok.Data;
 @Builder
 public class StandarizedApiExceptionResponse {
 
-    private String type = "/errors/uncategorized";
+    private String type;
     private String title;
     private String code;
     private String detail;
-    private String instance = "/errors/uncategorized/bank";
+    private String instance;
 
 }

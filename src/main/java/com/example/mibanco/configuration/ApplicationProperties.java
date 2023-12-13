@@ -10,9 +10,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationProperties {
 
-    @Value("${spring.application.apiKey}")
-    private String apiKey;
-
     @Value("${spring.application.name}")
     private String component;
+
+    @Value("${service.backend.exchange.read-timeout}")
+    private Long readTimeout;
+
+    @Value("${service.backend.exchange.write-timeout}")
+    private Long writeTimeout;
+
+    @Value("${service.backend.exchange.connect-timeout}")
+    private Long connectTimeout;
 }

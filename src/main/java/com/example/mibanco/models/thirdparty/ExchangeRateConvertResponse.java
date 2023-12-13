@@ -7,8 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RequestExchangeRate {
+public class ExchangeRateConvertResponse {
+
+    private String from;
+    private String to;
+    private String exchangeRate;
     private String amount;
-    private String originCurrency;
-    private String destinationCurrency;
+    private String result;
 }

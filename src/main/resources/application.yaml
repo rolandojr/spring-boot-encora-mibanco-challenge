@@ -5,28 +5,31 @@ spring:
   application:
     name: @project.name@
     description: @project.description@
-    apiKey: Ja1nCO8jbSGP1siZIYz0r6cwQwev8gr7
+
+service:
+  backend:
+    exchange:
+      read-timeout: 10000
+      write-timeout: 10000
+      connect-timeout: 1000
 
 
-resilience4j:
-  circuitbreaker:
-    configs:
-      defecto:
-        sliding-window-size: 6
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 20s
-        permitted-number-of-calls-in-half-open-state: 4
-        slow-call-rate-threshold: 50
-        slow-call-duration-threshold: 2s
-    instances:
-      exchange:
-        base-config: defecto
-  timelimiter:
-    configs:
-      defecto:
-        timeout-duration: 6s
-    instances:
-      exchange:
-        base-config: defecto
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /actuator
 
-    

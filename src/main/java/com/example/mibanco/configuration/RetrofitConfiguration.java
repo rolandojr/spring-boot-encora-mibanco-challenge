@@ -1,27 +1,40 @@
 package com.example.mibanco.configuration;
 
 import com.example.mibanco.proxy.ExchangeRateRepository;
+import lombok.AllArgsConstructor;
+import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
+@AllArgsConstructor
 public class RetrofitConfiguration {
 
-    private ExchangeRateRepository exchangeRateRepository;
+    private ApplicationProperties applicationProperties;
 
     @Bean
-    public ExchangeRateRepository configuration(){
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.apilayer.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+    public ExchangeRateRepository configuration() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(applicationProperties.getReadTimeout(), TimeUnit.MILLISECONDS)
+                .writeTimeout(applicationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS)
+                .connectTimeout(applicationProperties.getConnectTimeout(), TimeUnit.MILLISECONDS)
                 .build();
 
-        exchangeRateRepository = retrofit.create(ExchangeRateRepository.class);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:9090")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        ExchangeRateRepository exchangeRateRepository = retrofit.create(ExchangeRateRepository.class);
         return exchangeRateRepository;
     }
+
+
 }

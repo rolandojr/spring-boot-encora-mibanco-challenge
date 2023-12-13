@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ResponseExchangeRate {
-    private Double amount;
-    private Double amountExchangeRate;
+    private String amount;
+    private String amountExchangeRate;
     private String originCurrency;
     private String destinationCurrency;
     private String exchangeRate;
