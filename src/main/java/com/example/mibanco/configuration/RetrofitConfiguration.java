@@ -26,7 +26,7 @@ public class RetrofitConfiguration {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:9090")
+                .baseUrl(applicationProperties.getClientUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
