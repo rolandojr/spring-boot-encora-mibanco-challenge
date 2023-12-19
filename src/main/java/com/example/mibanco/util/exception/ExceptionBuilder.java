@@ -1,7 +1,6 @@
 package com.example.mibanco.util.exception;
 
 import com.example.mibanco.exception.ApiException;
-import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +28,6 @@ public class ExceptionBuilder {
         }
         if (exception instanceof RequestNotPermitted) {
             buildException((Exception) exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-104", component);
-        }
-        if (exception instanceof BulkheadFullException) {
-            buildException((Exception) exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-105", component);
         } else {
             buildException((Exception) exception, HttpStatus.INTERNAL_SERVER_ERROR, builder, "T-106", component);
         }
