@@ -22,6 +22,6 @@ public class ApplicationProperties {
     @Value("${service.backend.exchange.connect-timeout}")
     private Long connectTimeout;
 
-    @Value("${spring.application.client.exchange.url}")
+    @Value("${service.backend.exchange.base-url}")
     private String clientUrl;
 }

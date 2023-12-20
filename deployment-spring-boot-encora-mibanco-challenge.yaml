@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-encora-mibanco-challenge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-encora-mibanco-challenge
+  template:
+    metadata:
+      labels:
+        app: spring-boot-encora-mibanco-challenge
+    spec:
+      containers:
+        - name: spring-boot-encora-mibanco-challenge
+          image: rolandojavier13/spring-boot-encora-mibanco-challenge:v1.0.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HOST
+              value: spring-boot-exchange-rate:8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-encora-mibanco-challenge
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: spring-boot-encora-mibanco-challenge
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-boot-encora-mibanco-challenge
+  annotations:
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /encora/mibanco/v1
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-boot-encora-mibanco-challenge
+                port:
+                  number: 8080
+

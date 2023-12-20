@@ -3,15 +3,21 @@ server:
 
 spring:
   application:
+    name: spring-boot-encora-mibanco-challenge
+  webflux:
+    base-path: /encora/mibanco/v1
+
+info:
+  project:
     name: @project.name@
     description: @project.description@
-    client:
-      exchange:
-        url: ${URL:http://localhost:8081}
+    version: @project.version@
+    artifact-id: @project.artifactId@
 
 service:
   backend:
     exchange:
+      base-url: http://${HOST:localhost:8081}
       read-timeout: 10000
       write-timeout: 10000
       connect-timeout: 1000

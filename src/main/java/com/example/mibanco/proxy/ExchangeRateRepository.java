@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 public interface ExchangeRateRepository {
 
 
-    @GET("/api/v1/exchange/convert")
+    @GET("/trade-banking/currency/v1/exchange/convert")
     Single<Response<ExchangeRateConvertResponse>> getExchangeRate(@Query("from") String from,
                                                                   @Query("to") String to,
                                                                   @Query("amount") String amount);
