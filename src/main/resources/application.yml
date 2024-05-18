@@ -1,0 +1,21 @@
+server:
+  port: ${PORT:8080}
+
+info:
+  project:
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+    artifact-id: @project.artifactId@
+
+spring:
+  application:
+    name: spring-boot-encora-mibanco-challenge
+  cloud:
+    config:
+      name: spring-boot-encora-mibanco-challenge
+  webflux:
+    base-path: /encora/mibanco/v1
+
+
+

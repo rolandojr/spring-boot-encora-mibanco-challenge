@@ -14,28 +14,24 @@ import java.net.UnknownHostException;
 @Slf4j
 public class ExceptionBuilder {
 
-
     public ApiException buildExternalException(Throwable exception, String component) {
         var builder = ApiException.builder();
         if (exception instanceof SocketTimeoutException) {
-            buildException((Exception) exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-101", component);
-        }
-        if (exception instanceof UnknownHostException) {
-            buildException((Exception) exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-102", component);
-        }
-        if (exception instanceof CallNotPermittedException) {
-            buildException((Exception) exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-103", component);
-        }
-        if (exception instanceof RequestNotPermitted) {
-            buildException((Exception) exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-104", component);
+            buildException(exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-101", component);
+        } else if (exception instanceof UnknownHostException) {
+            buildException(exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-102", component);
+        } else if (exception instanceof CallNotPermittedException) {
+            buildException(exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-103", component);
+        } else if (exception instanceof RequestNotPermitted) {
+            buildException(exception, HttpStatus.SERVICE_UNAVAILABLE, builder, "T-104", component);
         } else {
-            buildException((Exception) exception, HttpStatus.INTERNAL_SERVER_ERROR, builder, "T-106", component);
+            buildException(exception, HttpStatus.INTERNAL_SERVER_ERROR, builder, "T-110", component);
         }
         return builder.build();
 
     }
 
-    public void buildException(Exception exception, HttpStatus httpStatus,
+    public void buildException(Throwable exception, HttpStatus httpStatus,
                                ApiException.ApiExceptionBuilder builder, String code,
                                String component) {
         builder.httpStatus(httpStatus)

@@ -32,7 +32,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         return exchangeRateRepository.getExchangeRate(
                         requestExchangeRate.getOriginCurrency(), requestExchangeRate.getDestinationCurrency(),
                         requestExchangeRate.getAmount())
-                .doOnError(t -> log.info("Ocurred an Error in ExchangeRateAPI {}"))
+                .doOnError(t -> log.info("Ocurred an Error in ExchangeRateAPI {}",t.getMessage()))
                 .onErrorResumeNext(ex -> Single.error(exceptionBuilder.buildExternalException(ex, COMPONENT_EXCHANGE)))
                 .map(rs -> builderResponse.validateResponse(rs))
                 .map(exchangeRateConvertResponse -> builderResponse.buildResponse(
@@ -44,12 +44,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     public Single<ResponseExchangeRate> fallbackMethodExecute(RequestExchangeRate requestExchangeRate, CallNotPermittedException exception) {
         log.info("executing fallback method !!");
         return Single.error(
-                ApiException.builder()
-                        .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .code("500")
-                        .component("api-exchange")
-                        .message(exception.getMessage())
-                        .build());
+                exceptionBuilder.buildExternalException(exception, COMPONENT_EXCHANGE));
     }
 
 }

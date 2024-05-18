@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-boot-encora-mibanco-challenge
+  config:
+    import: optional:configserver:${HOSTNAME_CONFIG_SERVER:http://localhost:8888}
