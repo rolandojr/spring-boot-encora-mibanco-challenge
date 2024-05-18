@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>mibanco</artifactId>
+    <artifactId>spring-boot-encora-mibanco-challenge</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>mibanco</name>
+    <name>spring-boot-encora-mibanco-challenge</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>

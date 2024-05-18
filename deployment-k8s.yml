@@ -14,19 +14,26 @@ spec:
     spec:
       containers:
         - name: spring-boot-encora-mibanco-challenge
-          image: rolandojavier13/spring-boot-encora-mibanco-challenge:v1.0.1
+          image: rolandojavier13/spring-boot-encora-mibanco-challenge:v1.0.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
             - name: HOST
               value: spring-boot-exchange-rate:8081
+            - name: HOSTNAME_CONFIG_SERVER
+              value: http://spring-boot-config-server:8888
+            - name: SPRING_CONFIG_IMPORT
+              value: optional:configserver:${HOSTNAME_CONFIG_SERVER:http://localhost:8888}
           resources:
             requests:
               memory: "512Mi"
-              cpu: "250m"
+              cpu: "256m"
             limits:
               memory: "1024Mi"
-              cpu: "500m"
+              cpu: "512m"
 ---
 apiVersion: v1
 kind: Service
